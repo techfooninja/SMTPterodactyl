@@ -1,18 +1,22 @@
-﻿using SmtpServer;
-using SmtpServer.ComponentModel;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using SmtpServer;
+using SmtpServer.Authentication;
+using SmtpServer.Storage;
 using SMTPterodactyl;
 
-Console.WriteLine($"Args: {string.Join(", ", args)}");
+var builder = Host.CreateApplicationBuilder(args);
 
-var options = new SmtpServerOptionsBuilder()
-    .ServerName("localhost")
-    .Port(25, 587)
-    .Build();
+builder.Services.AddSingleton(
+    new SmtpServerOptionsBuilder()
+        .ServerName("localhost")
+        .Port(25, 587)
+        .Build());
+builder.Services.AddSingleton(UserAuthenticator.Default);
+builder.Services.AddSingleton(MailboxFilter.Default);
+builder.Services.AddSingleton<IMessageStore>(new TestMessageStore(args[0], long.Parse(args[1])));
+builder.Services.AddSingleton<SmtpServer.SmtpServer>();
+builder.Services.AddHostedService<SmtpHostedService>();
 
-var serviceProvider = new ServiceProvider();
-serviceProvider.Add(new TestMessageStore(args[0], long.Parse(args[1])));
-var smtpServer = new SmtpServer.SmtpServer(options, serviceProvider);
-Console.WriteLine("Starting SMTP Server...\r\n");
-await smtpServer.StartAsync(CancellationToken.None);
-Console.WriteLine("Ending SMTP Server");
-Console.ReadLine();
+var host = builder.Build();
+await host.RunAsync();
