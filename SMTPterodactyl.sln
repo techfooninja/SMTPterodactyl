@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMTPterodactyl", "SMTPterodactyl\SMTPterodactyl.csproj", "{556EB984-ED78-DDE4-7F3F-2C99492CE418}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMTPterodactyl.Core", "SMTPterodactyl.Core\SMTPterodactyl.Core.csproj", "{3362646D-ECC8-460A-B01F-A39B323264DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{556EB984-ED78-DDE4-7F3F-2C99492CE418}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{556EB984-ED78-DDE4-7F3F-2C99492CE418}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{556EB984-ED78-DDE4-7F3F-2C99492CE418}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3362646D-ECC8-460A-B01F-A39B323264DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3362646D-ECC8-460A-B01F-A39B323264DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3362646D-ECC8-460A-B01F-A39B323264DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3362646D-ECC8-460A-B01F-A39B323264DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
