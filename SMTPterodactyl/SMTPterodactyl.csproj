@@ -23,6 +23,9 @@
     <None Update="channels.json">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </None>
+    <None Update="flows.json">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

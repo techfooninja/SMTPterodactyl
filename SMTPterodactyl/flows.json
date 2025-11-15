@@ -1,0 +1,8 @@
+[
+    {
+        "$type": "Flow",
+        "channelNames": [
+            "SOME_NAME_FOR_YOUR_CHANNEL"
+        ]
+    }
+]
