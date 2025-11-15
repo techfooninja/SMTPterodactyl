@@ -5,6 +5,8 @@
 
     public interface IChannel
     {
-        public Task HandleMessage(MimeMessage message);
+        public string? Name { get; set; }
+
+        public Task HandleMessageAsync(MimeMessage message);
     }
 }

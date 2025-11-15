@@ -14,7 +14,7 @@
 
         public event EventHandler<MimeMessage>? OnHandleMessage;
 
-        public async Task HandleMessage(MimeMessage message)
+        public async Task HandleMessageAsync(MimeMessage message)
         {
             if (this.OnHandleMessage != null)
             {
