@@ -4,5 +4,10 @@
         "name": "SOME_NAME_FOR_YOUR_CHANNEL",
         "botToken": "<BOT_TOKEN_SECRET_HERE>",
         "chatId": 1234567890
+    },
+    {
+        "$type": "FileChannel",
+        "name": "Archive to folder",
+        "folderPath": "C:\\temp"
     }
 ]

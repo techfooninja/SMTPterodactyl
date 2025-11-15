@@ -33,8 +33,6 @@
             var message = await MimeMessage.LoadAsync(stream, cancellationToken);
             Console.WriteLine($"To: {message.To}\r\nFrom: {message.From}\r\nSubject: {message.Subject}\r\nBody: {message.TextBody}\r\n");
 
-            await message.WriteToAsync(Path.Combine(@"C:\temp", $"{Guid.NewGuid()}.msg"));
-
             var flows = await this.flowStore.GetAsync();
 
             foreach (var flow in flows)

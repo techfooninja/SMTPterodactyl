@@ -2,7 +2,8 @@
     {
         "$type": "Flow",
         "channelNames": [
-            "SOME_NAME_FOR_YOUR_CHANNEL"
+            "SOME_NAME_FOR_YOUR_CHANNEL",
+            "Archive to folder"
         ]
     }
 ]
