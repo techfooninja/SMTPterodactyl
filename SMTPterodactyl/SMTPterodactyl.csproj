@@ -19,4 +19,10 @@
     <ProjectReference Include="..\SMTPterodactyl.Persistence\SMTPterodactyl.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="channels.json">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
