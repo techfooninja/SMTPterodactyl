@@ -5,6 +5,8 @@ using SmtpServer.Authentication;
 using SmtpServer.Storage;
 using SMTPterodactyl;
 using SMTPterodactyl.Core.Channels;
+using SMTPterodactyl.Persistence;
+using SMTPterodactyl.Persistence.Json;
 using Telegram.Bot;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -18,14 +20,60 @@ builder.Services.AddSingleton(UserAuthenticator.Default);
 builder.Services.AddSingleton(MailboxFilter.Default);
 builder.Services.AddSingleton<IMessageStore, SMTPterodactyl.MessageStore>();
 builder.Services.AddSingleton<SmtpServer.SmtpServer>();
-
-// TODO: Add logic to have Telegram bots reply with the current chatId when receiving a message
-builder.Services.AddKeyedSingleton<ITelegramBotClient>(args[0], new TelegramBotClient(args[0]));
-
-// TODO: We need to be able to support multiple Telegram channels eventually
-builder.Services.AddTransient<IChannel>(services => new TelegramChannel(args[0], long.Parse(args[1]), services));
-
+builder.Services.AddSingleton<IDataStore<IChannel>>(new JsonDataStore<IChannel>(Path.Combine(Environment.CurrentDirectory, "channels.json")));
+builder.Services.AddSingleton<IDictionary<string, ITelegramBotClient>>(new Dictionary<string, ITelegramBotClient>());
 builder.Services.AddHostedService<SmtpHostedService>();
 
 var host = builder.Build();
+await InitializeTelegram();
 await host.RunAsync();
+
+async Task InitializeTelegram()
+{
+    // Hook up Telegram channels with bots
+    var channelStore = host.Services.GetService<IDataStore<IChannel>>();
+
+    if (channelStore == null)
+    {
+        throw new KeyNotFoundException($"No instance of {typeof(IDataStore<IChannel>).Name} was found. Did you forget to register it?");
+    }
+
+    var telegramBots = host.Services.GetService<IDictionary<string, ITelegramBotClient>>();
+
+    if (telegramBots == null)
+    {
+        throw new KeyNotFoundException($"No instance of {typeof(IDictionary<string, ITelegramBotClient>).Name} was found. Did you forget to register it?");
+    }
+
+    var channels = await channelStore.GetAsync();
+    foreach (var channel in channels)
+    {
+        if (channel is TelegramChannel telegramChannel)
+        {
+            if (string.IsNullOrWhiteSpace(telegramChannel.BotToken))
+            {
+                continue;
+            }
+
+            if (!telegramBots.ContainsKey(telegramChannel.BotToken))
+            {
+                var bot = new TelegramBotClient(telegramChannel.BotToken);
+                bot.OnMessage += async (msg, type) =>
+                {
+                    if (string.Equals(msg.Text, "/start", StringComparison.OrdinalIgnoreCase))
+                    {
+                        await bot.SendMessage(msg.Chat, $"Your ID is {msg.Chat.Id}");
+                    }
+                };
+
+                telegramBots[telegramChannel.BotToken] = bot;
+            }
+
+            telegramChannel.OnHandleMessage += async (s, msg) =>
+            {
+                var bot = telegramBots[telegramChannel.BotToken];
+                await bot.SendMessage(new Telegram.Bot.Types.ChatId(telegramChannel.ChatId), $"{msg.Subject}\r\n\r\n{msg.TextBody}");
+            };
+        }
+    }
+}

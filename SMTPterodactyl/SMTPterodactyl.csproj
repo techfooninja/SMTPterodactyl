@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SMTPterodactyl.Core\SMTPterodactyl.Core.csproj" />
+    <ProjectReference Include="..\SMTPterodactyl.Persistence\SMTPterodactyl.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,17 +5,18 @@
     using SmtpServer.Protocol;
     using SmtpServer.Storage;
     using SMTPterodactyl.Core.Channels;
+    using SMTPterodactyl.Persistence;
     using System.Buffers;
     using System.Threading;
     using System.Threading.Tasks;
 
     internal class MessageStore : IMessageStore
     {
-        private readonly IChannel channel;
+        private readonly IDataStore<IChannel> channelStore;
 
-        public MessageStore(IChannel channel)
+        public MessageStore(IDataStore<IChannel> channelStore)
         {
-            this.channel = channel;
+            this.channelStore = channelStore;
         }
 
         public async Task<SmtpResponse> SaveAsync(ISessionContext context, IMessageTransaction transaction, ReadOnlySequence<byte> buffer, CancellationToken cancellationToken)
@@ -33,7 +34,14 @@
             Console.WriteLine($"To: {message.To}\r\nFrom: {message.From}\r\nSubject: {message.Subject}\r\nBody: {message.TextBody}\r\n");
 
             await message.WriteToAsync(Path.Combine(@"C:\temp", $"{Guid.NewGuid()}.msg"));
-            await channel.HandleMessage(message);
+
+            var channels = await this.channelStore.GetAsync();
+
+            foreach (var channel in channels)
+            {
+                await channel.HandleMessage(message);
+            }
+
             return SmtpResponse.Ok;
         }
     }
