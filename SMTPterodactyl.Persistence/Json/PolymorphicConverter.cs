@@ -2,16 +2,27 @@
 {
     using SMTPterodactyl.Utilities;
     using System;
+    using System.Collections.Generic;
     using System.Text.Json;
     using System.Text.Json.Serialization;
 
     internal class PolymorphicConverter<TInterface> : JsonConverter<TInterface>
     {
         private readonly string typePropertyName;
+        private readonly HashSet<string> propertiesToIgnore;
 
-        public PolymorphicConverter(string typePropertyName = "$type")
+        public PolymorphicConverter(string typePropertyName = "$type", string[]? propsToIgnore = default)
         {
             this.typePropertyName = typePropertyName;
+            this.propertiesToIgnore = new HashSet<string>();
+
+            if (propsToIgnore != null)
+            {
+                foreach (var prop in propsToIgnore)
+                {
+                    this.propertiesToIgnore.Add(prop.ToLower());
+                }
+            }
         }
 
         public override TInterface? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -40,9 +51,13 @@
 
             writer.WriteStartObject();
             writer.WriteString(this.typePropertyName, type.Name);
+
             foreach (var prop in json.EnumerateObject())
             {
-                prop.WriteTo(writer);
+                if (!this.propertiesToIgnore.Contains(prop.Name.ToLower()))
+                {
+                    prop.WriteTo(writer);
+                }
             }
 
             writer.WriteEndObject();

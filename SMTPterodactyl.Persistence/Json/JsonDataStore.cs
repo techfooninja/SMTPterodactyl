@@ -17,7 +17,7 @@
         private readonly List<T> entities = new List<T>();
         private bool isLoaded;
 
-        public JsonDataStore(string filePath)
+        public JsonDataStore(string filePath, string[]? propertiesToIgnore = null)
         {
             this.filePath = filePath;
             this.options = new JsonSerializerOptions()
@@ -27,7 +27,7 @@
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             };
 
-            this.options.Converters.Add(new PolymorphicConverter<T>());
+            this.options.Converters.Add(new PolymorphicConverter<T>(propsToIgnore: propertiesToIgnore));
         }
 
         public async Task<T> CreateAsync(T entity)
