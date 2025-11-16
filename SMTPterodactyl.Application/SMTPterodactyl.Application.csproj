@@ -2,15 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="9.0.10" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\SMTPterodactyl.Utilities\SMTPterodactyl.Utilities.csproj" />
+    <ProjectReference Include="..\SMTPterodactyl.Core\SMTPterodactyl.Core.csproj" />
   </ItemGroup>
 
 </Project>

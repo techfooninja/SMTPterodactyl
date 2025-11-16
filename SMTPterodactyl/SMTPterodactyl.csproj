@@ -8,20 +8,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MailKit" Version="4.14.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.22">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="SmtpServer" Version="11.0.0" />
     <PackageReference Include="Telegram.Bot" Version="22.7.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SMTPterodactyl.Application\SMTPterodactyl.Application.csproj" />
     <ProjectReference Include="..\SMTPterodactyl.Core\SMTPterodactyl.Core.csproj" />
-    <ProjectReference Include="..\SMTPterodactyl.Persistence\SMTPterodactyl.Persistence.csproj" />
+    <ProjectReference Include="..\SMTPterodactyl.Infrastructure\SMTPterodactyl.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="channels.json">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="core.db">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="flows.json">
       <CopyToOutputDirectory></CopyToOutputDirectory>
