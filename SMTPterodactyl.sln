@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMTPterodactyl", "SMTPterod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMTPterodactyl.Core", "SMTPterodactyl.Core\SMTPterodactyl.Core.csproj", "{3362646D-ECC8-460A-B01F-A39B323264DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMTPterodactyl.Utilities", "SMTPterodactyl.Utilities\SMTPterodactyl.Utilities.csproj", "{D4089AFD-30EF-4D14-89CE-FA259FCBD47D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMTPterodactyl.Application", "SMTPterodactyl.Application\SMTPterodactyl.Application.csproj", "{BB6243C1-13AC-489B-B7A7-F54CF4F100CC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMTPterodactyl.Infrastructure", "SMTPterodactyl.Infrastructure\SMTPterodactyl.Infrastructure.csproj", "{A9918B99-7935-DED3-0AA9-5D0CA9CB66D5}"
@@ -27,10 +25,6 @@ Global
 		{3362646D-ECC8-460A-B01F-A39B323264DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3362646D-ECC8-460A-B01F-A39B323264DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3362646D-ECC8-460A-B01F-A39B323264DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4089AFD-30EF-4D14-89CE-FA259FCBD47D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4089AFD-30EF-4D14-89CE-FA259FCBD47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4089AFD-30EF-4D14-89CE-FA259FCBD47D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4089AFD-30EF-4D14-89CE-FA259FCBD47D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BB6243C1-13AC-489B-B7A7-F54CF4F100CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BB6243C1-13AC-489B-B7A7-F54CF4F100CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB6243C1-13AC-489B-B7A7-F54CF4F100CC}.Release|Any CPU.ActiveCfg = Release|Any CPU

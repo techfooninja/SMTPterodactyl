@@ -17,7 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SMTPterodactyl.Application\SMTPterodactyl.Application.csproj" />
     <ProjectReference Include="..\SMTPterodactyl.Core\SMTPterodactyl.Core.csproj" />
-    <ProjectReference Include="..\SMTPterodactyl.Utilities\SMTPterodactyl.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
