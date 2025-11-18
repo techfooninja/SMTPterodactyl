@@ -7,9 +7,7 @@ using SmtpServer.Authentication;
 using SmtpServer.Storage;
 using SMTPterodactyl;
 using SMTPterodactyl.Core.Entities.Channels;
-using SMTPterodactyl.Core.Interfaces.Repositories;
 using SMTPterodactyl.Infrastructure.Database;
-using SMTPterodactyl.Infrastructure.Repositories;
 using Telegram.Bot;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -27,8 +25,6 @@ builder.Services.AddSingleton(UserAuthenticator.Default);
 builder.Services.AddSingleton(MailboxFilter.Default);
 builder.Services.AddScoped<IMessageStore, SMTPterodactyl.MessageStore>();
 builder.Services.AddSingleton<SmtpServer.SmtpServer>();
-builder.Services.AddScoped<IChannelRepository, ChannelRepository>();
-builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddSingleton<IDictionary<string, ITelegramBotClient>>(new Dictionary<string, ITelegramBotClient>());
 builder.Services.AddHostedService<SmtpHostedService>();
 
@@ -52,11 +48,11 @@ async Task InitializeDatabase()
 async Task InitializeTelegram()
 {
     // Hook up Telegram channels with bots
-    var channelStore = host.Services.GetService<IChannelRepository>();
+    var db = host.Services.GetService<ApplicationDbContext>();
 
-    if (channelStore == null)
+    if (db == null)
     {
-        throw new KeyNotFoundException($"No instance of {nameof(IChannelRepository)} was found. Did you forget to register it?");
+        throw new KeyNotFoundException($"No instance of {nameof(ApplicationDbContext)} was found. Did you forget to register it?");
     }
 
     var telegramBots = host.Services.GetService<IDictionary<string, ITelegramBotClient>>();
@@ -66,7 +62,7 @@ async Task InitializeTelegram()
         throw new KeyNotFoundException($"No instance of {typeof(IDictionary<string, ITelegramBotClient>).Name} was found. Did you forget to register it?");
     }
 
-    var channels = await channelStore.GetAllAsync();
+    var channels = await db.Channels.ToListAsync();
     foreach (var channel in channels)
     {
         if (channel is TelegramChannel telegramChannel)
