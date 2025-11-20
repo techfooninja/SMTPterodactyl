@@ -1,4 +1,4 @@
-﻿namespace SMTPterodactyl
+﻿namespace SMTPterodactyl.Infrastructure.Inbound
 {
     using Microsoft.Extensions.Hosting;
     using SmtpServer;
