@@ -13,6 +13,18 @@ var configuration = builder.Configuration;
 services.Configure<SmtpOptions>(configuration.GetSection("Smtp"));
 services.Configure<MessageHandlingSettings>(configuration.GetSection("MessageHandlingSettings"));
 
+services.AddSingleton(services =>
+{
+    var options = services.GetService<IOptions<MessageHandlingSettings>>();
+
+    if (options == null)
+    {
+        throw new KeyNotFoundException($"No instance of {nameof(MessageHandlingSettings)} was found. Did you forget to register it?");
+    }
+
+    return options.Value;
+});
+
 services.AddSingleton<TelegramService>();
 services.AddSingleton(UserAuthenticator.Default);
 services.AddSingleton(MailboxFilter.Default);
