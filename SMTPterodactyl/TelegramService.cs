@@ -36,7 +36,7 @@ internal class TelegramService
             using var memoryStream = new MemoryStream();
             await message.WriteToAsync(memoryStream);
             memoryStream.Seek(0, SeekOrigin.Begin);
-            await this.bot.SendDocument(chat, InputFile.FromStream(memoryStream, $"{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.eml"), $"To: {message.To}\r\nFrom: {message.From}\r\nSubject: {message.Subject}\r\n\r\n{message.TextBody}");
+            await this.bot.SendDocument(chat, InputFile.FromStream(memoryStream, $"{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.eml"), $"To: {message.To}\r\nFrom: {message.From}\r\nSubject: {message.Subject}\r\n\r\n{message.TextBody}".Substring(0, 1024));
         }
     }
 }
