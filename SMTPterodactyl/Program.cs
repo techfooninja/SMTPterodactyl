@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using SmtpServer;
@@ -47,6 +48,14 @@ services.AddSingleton(services =>
 });
 
 services.AddScoped<ProcessInboundMessageHandler>();
+
+
+builder.Services.AddWindowsService(options =>
+{
+    options.ServiceName = configuration.GetValue<string>("WindowsServiceName");
+});
+
+
 services.AddHostedService<SmtpHostedService>();
 
 var host = builder.Build();
