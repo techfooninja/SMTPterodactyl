@@ -59,4 +59,8 @@ builder.Services.AddWindowsService(options =>
 services.AddHostedService<SmtpHostedService>();
 
 var host = builder.Build();
+
+// NOTE: Need to force the telegram service to instantiate for the bot to work correctly with /start
+var telegramService = host.Services.GetService<TelegramService>();
+
 await host.RunAsync();
