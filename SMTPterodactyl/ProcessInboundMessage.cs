@@ -22,7 +22,7 @@ internal class ProcessInboundMessageHandler(
                 Directory.CreateDirectory(directory);
             }
 
-            await message.WriteToAsync(Path.Combine(directory, $"{DateTime.Now:yyyy-MM-dd-HH-mm-ss}_{Guid.NewGuid()}.msg"));
+            await message.WriteToAsync(Path.Combine(directory, $"{DateTime.Now:yyyy-MM-dd-HH-mm-ss}_{Guid.NewGuid()}.eml"));
         }
 
         await telegramService.SendAsync(message);
